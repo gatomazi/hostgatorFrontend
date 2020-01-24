@@ -1,0 +1,26 @@
+.root {
+  flex-grow: 1;
+}
+
+.orangePlanBg {
+  background-color: "orange";
+  padding-bottom: 5;
+  padding-top: 10;
+  border-tadius: 5;
+}
+.planCard {
+  backgroundcolor: "#fff";
+  // height: 100;
+  bordercolor: borderColor;
+  borderstyle: "solid";
+  border: 1;
+  borderradius: 5;
+}
+insidedivisor: {
+  borderbottomcolor: borderColor;
+  borderbottomstyle: "solid";
+  borderbottom: 0.5;
+  bordertopcolor: borderColor;
+  bordertopstyle: "solid";
+  bordertop: 0.5;
+}
