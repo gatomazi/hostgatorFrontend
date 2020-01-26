@@ -1,0 +1,85 @@
+@import "../global.scss";
+
+.rootBanner {
+  color: white;
+  height: 350px;
+  //   background-color: $blue-4-color;
+  background-color: #0d64ab;
+  line-height: 1.5;
+  font-weight: 300;
+  margin-bottom: 45px;
+  &:after {
+    content: "";
+    position: absolute;
+    margin-left: 50%;
+    // bottom: 0;
+    left: 0;
+    width: 2995px;
+    height: 32px;
+    background-color: #fff;
+    background-image: url("../assets/bg-wave.svg");
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    z-index: -3;
+  }
+  overflow: hidden !important;
+}
+.afterBg:after {
+  background-color: $blue-1-color;
+}
+
+.mdContainer {
+  height: 100%;
+  flex: 1 !important;
+  justify-content: center !important;
+  align-items: center !important;
+  display: flex;
+  flex-direction: column;
+
+  padding: 0 !important;
+}
+
+.txtBanner {
+  padding-left: 3px;
+  padding-right: 10px;
+}
+
+.checkIcon {
+  position: relative;
+  top: 3px;
+}
+.beforeArrow {
+  position: relative;
+  top: -40px;
+}
+.arrow-down {
+  position: relative;
+  left: calc(50% - 25px);
+  -webkit-animation: bounce 1s infinite;
+  animation: bounce 1s infinite;
+  // z-index: 2;
+  .arrow-link {
+    display: block;
+    width: 50px;
+    height: 50px;
+    background-image: url("../assets/arrow-down.svg");
+  }
+}
+
+@keyframes bounce {
+  0% {
+    top: 0;
+  }
+  50% {
+    top: -0.2em;
+  }
+  70% {
+    top: -0.4em;
+  }
+  100% {
+    top: 0;
+  }
+}

@@ -4,7 +4,7 @@ import "./PlanoCard.scss";
 import iconPlan from "../assets/icon.png";
 import { Button } from "@material-ui/core";
 
-const PlanoCard = ({ plan, infoCycle }) => {
+const PlanoCard = ({ plan, infoCycle, handleRedirect }) => {
   function formatCurrency(value) {
     let newValue = parseFloat(value);
     return "R$ " + String(newValue.toFixed(2)).replace(".", ",");
@@ -25,7 +25,7 @@ const PlanoCard = ({ plan, infoCycle }) => {
           className="Navbar-logo"
           alt="logo"
         />
-        <div className="titlePlan">{plan["name"]}</div>
+        <div className="fontDestaque blueFont">{plan["name"]}</div>
       </div>
       <div className="insideDivisor defaulPadding">
         <div>
@@ -38,16 +38,25 @@ const PlanoCard = ({ plan, infoCycle }) => {
         </div>
         <div>equivalente a</div>
         <div className="blueFont">
-          <span style={{ fontSize: 24, fontWeight: "bold" }}>
-            {formatCurrency(valueMonth)}
-          </span>
+          <span className="fontDestaque">{formatCurrency(valueMonth)}</span>
           /mês*
         </div>
 
-        <Button className="btnContrate">Contrate Agora</Button>
+        <Button
+          className="btnContrate"
+          onClick={() =>
+            handleRedirect(
+              `?a=add&pid=${plan["id"]}&billingcycle=${infoCycle["cycle"]}&promocode=PROMOHG40`
+            )
+          }
+        >
+          Contrate Agora
+        </Button>
         <div>1 ano de Domínio Grátis</div>
         <div>
-          economize {formatCurrency(valueTotalDiscount)}{" "}
+          <span className="economizeTxt blueFont">
+            economize {formatCurrency(valueTotalDiscount)}{" "}
+          </span>
           <span className="tagOff">{(pctDiscount - 1) * 100 * -1}% OFF</span>
         </div>
       </div>
