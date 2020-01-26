@@ -33,8 +33,8 @@ const Banner = () => {
         </Container>
       </div>
       <div className="beforeArrow">
-        <div class="arrow-down">
-          <a class="arrow-link" href="#plans"></a>
+        <div className="arrow-down">
+          <a className="arrow-link" href="#plans"></a>
         </div>
       </div>
     </div>
