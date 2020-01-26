@@ -1,6 +1,6 @@
 import React from "react";
 
-import logo from "../logo.svg";
+import logo from "../assets/logo-hg.svg";
 // import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,6 +10,12 @@ import Container from "@material-ui/core/Container";
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
+  },
+  logo: {
+    width: "198px",
+    height: "35px",
+    paddingTop: 5,
+    paddingBottom: 5
   }
 }));
 
@@ -19,12 +25,7 @@ const Topbar = () => {
     <div className={classes.root}>
       <Container maxWidth="lg">
         <Grid item xs={12} style={{ textAlign: "left" }}>
-          <img
-            style={{ height: 50 }}
-            src={logo}
-            className="Navbar-logo"
-            alt="logo"
-          />
+          <img src={logo} className={classes.logo} alt="logo" />
         </Grid>
       </Container>
     </div>

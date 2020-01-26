@@ -1,8 +1,10 @@
+@import "../global.scss";
+
 .root {
   flex-grow: 1;
 }
 .orangePlanBg {
-  background-color: orange;
+  background-color: $orange-color;
   padding-bottom: 5px;
   padding-top: 10px;
   border-radius: 5px;
@@ -11,11 +13,23 @@
   }
 }
 
-.tabStyle {
-  border-radius: 30px;
-  background: #fff;
-  border-color: blue;
-  .Mui-selected {
-    background: blue;
-  }
+.tabBtn {
+  width: calc(100% / 6);
+  border-radius: 25px !important;
+  text-transform: lowercase !important;
+}
+
+.activeTab {
+  background-color: $blue-3-color !important;
+  color: white !important;
+  border-radius: 25px !important;
+}
+
+.tabsRoot {
+  border: 0.5px solid $blue-3-color;
+  background-color: white;
+  border-radius: 25px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0px 2px 5px 0px rgba(191, 191, 191, 0.5);
 }

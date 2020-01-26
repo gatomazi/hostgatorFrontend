@@ -1,10 +1,9 @@
 import React from "react";
 import "./Plano.scss";
 
-import { Grid, Container, Tabs, Tab } from "@material-ui/core";
+import { Grid, Container, Button, Radio } from "@material-ui/core";
 
 import PlanoCard from "./PlanoCard";
-import TabPanel from "./TabPanel";
 
 var mock = {
   shared: {
@@ -121,35 +120,61 @@ var mock = {
   }
 };
 
-function valuesToArray(obj) {
-  return Object.keys(obj).map(key => obj[key]);
-}
+class Plano extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  state = {
+    plans: null,
+    activePlan: 0,
+    selectedRadio: 0
+  };
+  // }
 
-const Plano = () => {
-  const [value, setValue] = React.useState(0);
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  plansFiltered = Object.keys(mock.shared.products).map((namePlan, index) => {
+    return mock.shared.products[namePlan];
+  });
+
+  createCyclesPlan = (indexPlan, indexCycle) => {
+    let arrReturn = [];
+    Object.keys(this.plansFiltered[indexPlan]["cycle"]).map(
+      (nameCycle, index) => {
+        if (indexCycle === index) {
+          let month = this.plansFiltered[indexPlan]["cycle"][nameCycle][
+            "months"
+          ];
+          arrReturn["priceRenew"] = this.plansFiltered[indexPlan]["cycle"][
+            nameCycle
+          ]["priceRenew"];
+          arrReturn["priceOrder"] = this.plansFiltered[indexPlan]["cycle"][
+            nameCycle
+          ]["priceOrder"];
+          arrReturn["months"] = month;
+          return arrReturn;
+        }
+      }
+    );
+    return arrReturn;
   };
 
-  const passProps = index => {
-    return {
-      id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`
-    };
+  createPlans = indexCycle => {
+    return this.plansFiltered.map((plan, index) => {
+      let planCycle = this.createCyclesPlan(index, indexCycle);
+      return (
+        <Grid key={index} item xs={4}>
+          <div className="orangePlanBg">
+            <PlanoCard key={index} plan={plan} infoCycle={planCycle} />
+          </div>
+        </Grid>
+      );
+    });
   };
 
-  var plansFiltered = Object.keys(mock.shared.products).map(
-    (namePlan, index) => {
-      return mock.shared.products[namePlan];
-    }
-  );
-
-  var cycles = Object.keys(plansFiltered[0]["cycle"]).map(
+  mountCycleTab = Object.keys(this.plansFiltered[0]["cycle"]).map(
     (nameCycle, index) => {
       let arrReturn = [];
-      let month = plansFiltered[0]["cycle"][nameCycle]["months"];
+      let month = this.plansFiltered[0]["cycle"][nameCycle]["months"];
+
       arrReturn["nameCycle"] = nameCycle;
-      arrReturn["qtyMonths"] = month;
       if (month >= 12) {
         let calcYear = month / 12;
         arrReturn["formattedCycle"] =
@@ -162,68 +187,50 @@ const Plano = () => {
     }
   );
 
-  var plans = plansFiltered.map((plan, index) => (
-    <Grid item xs={4}>
-      <div className="orangePlanBg">
-        {/* <Grid item lg={4}> */}
-        <PlanoCard
-          role="tabpanel"
-          hidden={value !== index}
-          id={`simple-tabpanel-${index}`}
-          aria-labelledby={`simple-tab-${index}`}
-          key={index}
-          plan={plan}
-        />
-      </div>
-    </Grid>
-  ));
+  changePlan = indexCycle => {
+    this.setState({
+      plans: this.createPlans(indexCycle),
+      selectedRadio: indexCycle,
+      activePlan: indexCycle
+    });
+    console.log(indexCycle);
+  };
 
-  function createPlan(qtyMonth) {
-    return plansFiltered.map((plan, index) => (
-      <Grid item xs={4}>
-        <div className="orangePlanBg">
-          {/* <Grid item lg={4}> */}
-          <PlanoCard
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            key={index}
-            plan={plan}
-          />
-        </div>
-      </Grid>
-    ));
+  tabs = this.mountCycleTab.map((cycleInfo, index) => {
+    return (
+      <Button
+        key={index}
+        onClick={() => this.changePlan(index)}
+        className={
+          this.state.activePlan === index ? "tabBtn activeTab" : "tabBtn"
+        }
+      >
+        <Radio
+          checked={this.state.selectedRadio === index}
+          value={index}
+          name="radio-selected-plan"
+        />
+        {cycleInfo["formattedCycle"]}
+      </Button>
+    );
+  });
+
+  componentDidMount() {
+    this.changePlan(0);
   }
 
-  var tabPanels = cycles.map((nameCycle, index) => (
-    <TabPanel style={{ padding: 0 }} value={value} index={index}>
-      {plans}
-    </TabPanel>
-  ));
-
-  return (
-    <div className="root">
-      <Tabs
-        className="tabStyle"
-        value={value}
-        onChange={handleChange}
-        aria-label="simple tabs example"
-        centered
-      >
-        {cycles.map((cycleInfo, index) => (
-          <Tab label={cycleInfo["formattedCycle"]} {...passProps(index)} />
-        ))}
-        {/* <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} /> */}
-      </Tabs>
-      <Container maxWidth="md">
-        <Grid container spacing={3}>
-          {plans}
-        </Grid>
-      </Container>
-    </div>
-  );
-};
+  render() {
+    return (
+      <div className="root">
+        <Container maxWidth="md">
+          <div className="tabsRoot">{this.tabs}</div>
+          <Grid container spacing={3}>
+            {this.state.plans}
+          </Grid>
+        </Container>
+      </div>
+    );
+  }
+}
 
 export default Plano;

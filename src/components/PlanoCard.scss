@@ -1,37 +1,48 @@
+@import "../global.scss";
+
 .planCard {
   padding: 0px !important;
   background-color: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid $border-color;
   border-radius: 5px;
-  div {
+  .defaulPadding {
     padding: 25px;
-    span {
-      display: block;
-    }
-    &:first-child {
-      span {
-        font-size: 24px;
-      }
-    }
     &:last-child {
-      span {
+      div {
         padding: 5px 0px;
-        &:first-child,
-        &:nth-child(3) {
-          border-bottom: dashed 0.8px #ddd;
+        span {
+          border-bottom: dashed 0.8px $border-color;
         }
       }
     }
   }
 }
 
+.tagOff {
+  background: $green-color;
+  border-radius: 25px;
+  color: white;
+  padding: 0px 7px;
+}
+
+.btnContrate {
+  margin: 20px 0px !important;
+  width: 100%;
+  text-transform: capitalize !important;
+  // font-weight: bold !important;
+  color: white !important;
+  font-size: 23px !important;
+  background: $orange-color !important;
+  border-radius: 25px !important;
+}
+
 .insideDivisor {
   border-bottom: 0.5px;
-  border-bottom-color: #ddd;
+  border-bottom-color: $border-color;
   border-bottom-style: solid;
   /* border-bottom: 0.5; */
   border-top: 0.5px;
-  border-top-color: #ddd;
+  border-top-color: $border-color;
   border-top-style: solid;
   /* border-top: 0.5; */
 }
