@@ -1,38 +1,11 @@
 import React from "react";
 import "./Plano.scss";
-import PropTypes from "prop-types";
 
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import { Grid, Container, Tabs, Tab } from "@material-ui/core";
 
 import PlanoCard from "./PlanoCard";
+import TabPanel from "./TabPanel";
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </Typography>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
-};
 var mock = {
   shared: {
     products: {
@@ -154,46 +127,98 @@ function valuesToArray(obj) {
 
 const Plano = () => {
   const [value, setValue] = React.useState(0);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const a11yProps = index => {
+  const passProps = index => {
     return {
       id: `simple-tab-${index}`,
       "aria-controls": `simple-tabpanel-${index}`
     };
   };
 
-  var plans;
-  plans = Object.keys(mock.shared.products).map((namePlan, index) => (
-    <TabPanel value={value} index={index}>
-      <PlanoCard
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        key={index}
-        plan={mock.shared.products[namePlan]}
-      />
+  var plansFiltered = Object.keys(mock.shared.products).map(
+    (namePlan, index) => {
+      return mock.shared.products[namePlan];
+    }
+  );
+
+  var cycles = Object.keys(plansFiltered[0]["cycle"]).map(
+    (nameCycle, index) => {
+      let arrReturn = [];
+      let month = plansFiltered[0]["cycle"][nameCycle]["months"];
+      arrReturn["nameCycle"] = nameCycle;
+      arrReturn["qtyMonths"] = month;
+      if (month >= 12) {
+        let calcYear = month / 12;
+        arrReturn["formattedCycle"] =
+          calcYear > 1 ? calcYear + " anos" : calcYear + " ano";
+      } else {
+        arrReturn["formattedCycle"] =
+          month > 1 ? month + " meses" : month + " mês";
+      }
+      return arrReturn;
+    }
+  );
+
+  var plans = plansFiltered.map((plan, index) => (
+    <Grid item xs={4}>
+      <div className="orangePlanBg">
+        {/* <Grid item lg={4}> */}
+        <PlanoCard
+          role="tabpanel"
+          hidden={value !== index}
+          id={`simple-tabpanel-${index}`}
+          aria-labelledby={`simple-tab-${index}`}
+          key={index}
+          plan={plan}
+        />
+      </div>
+    </Grid>
+  ));
+
+  function createPlan(qtyMonth) {
+    return plansFiltered.map((plan, index) => (
+      <Grid item xs={4}>
+        <div className="orangePlanBg">
+          {/* <Grid item lg={4}> */}
+          <PlanoCard
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            key={index}
+            plan={plan}
+          />
+        </div>
+      </Grid>
+    ));
+  }
+
+  var tabPanels = cycles.map((nameCycle, index) => (
+    <TabPanel style={{ padding: 0 }} value={value} index={index}>
+      {plans}
     </TabPanel>
   ));
 
   return (
     <div className="root">
       <Tabs
+        className="tabStyle"
         value={value}
         onChange={handleChange}
         aria-label="simple tabs example"
         centered
       >
-        <Tab label="Item One" {...a11yProps(0)} />
-        <Tab label="Item Two" {...a11yProps(1)} />
-        <Tab label="Item Three" {...a11yProps(2)} />
+        {cycles.map((cycleInfo, index) => (
+          <Tab label={cycleInfo["formattedCycle"]} {...passProps(index)} />
+        ))}
+        {/* <Tab label="Item Two" {...a11yProps(1)} />
+          <Tab label="Item Three" {...a11yProps(2)} /> */}
       </Tabs>
-      <Container maxWidth="xs">
-        <Grid className="orangePlanBg" item xs={12}>
+      <Container maxWidth="md">
+        <Grid container spacing={3}>
           {plans}
         </Grid>
       </Container>

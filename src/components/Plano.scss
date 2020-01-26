@@ -6,4 +6,16 @@
   padding-bottom: 5px;
   padding-top: 10px;
   border-radius: 5px;
+  .MuiBox-root {
+    padding: 0px !important;
+  }
+}
+
+.tabStyle {
+  border-radius: 30px;
+  background: #fff;
+  border-color: blue;
+  .Mui-selected {
+    background: blue;
+  }
 }
