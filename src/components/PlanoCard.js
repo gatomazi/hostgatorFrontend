@@ -1,20 +1,19 @@
 import React from "react";
 import "./PlanoCard.scss";
 
+import { CalcValues } from "../helpers/currency";
+
 import iconPlan from "../assets/icon.png";
 import { Button } from "@material-ui/core";
 
 const PlanoCard = ({ plan, infoCycle, handleRedirect }) => {
-  function formatCurrency(value) {
-    let newValue = parseFloat(value);
-    return "R$ " + String(newValue.toFixed(2)).replace(".", ",");
-  }
+  let pctDiscount = 0.6;
 
-  var pctDiscount = 0.6;
-
-  var valueWDDiscount = infoCycle["priceOrder"] * pctDiscount;
-  var valueMonth = valueWDDiscount / infoCycle["months"];
-  var valueTotalDiscount = infoCycle["priceOrder"] - valueWDDiscount;
+  let arrValues = CalcValues(
+    infoCycle["priceOrder"],
+    infoCycle["months"],
+    pctDiscount
+  );
 
   return (
     <div className="planCard">
@@ -30,15 +29,15 @@ const PlanoCard = ({ plan, infoCycle, handleRedirect }) => {
       <div className="insideDivisor defaulPadding">
         <div>
           <span style={{ textDecoration: "line-through" }}>
-            {formatCurrency(infoCycle["priceOrder"])}
+            {arrValues["originalPrice"]}
           </span>{" "}
           <span>
-            <b>{formatCurrency(valueWDDiscount)}</b>
+            <b>{arrValues["valueWDDiscount"]}</b>
           </span>
         </div>
         <div>equivalente a</div>
         <div className="blueFont">
-          <span className="fontDestaque">{formatCurrency(valueMonth)}</span>
+          <span className="fontDestaque">{arrValues["valueMonth"]}</span>
           /mês*
         </div>
 
@@ -55,7 +54,7 @@ const PlanoCard = ({ plan, infoCycle, handleRedirect }) => {
         <div>1 ano de Domínio Grátis</div>
         <div>
           <span className="economizeTxt blueFont">
-            economize {formatCurrency(valueTotalDiscount)}{" "}
+            economize {arrValues["valueTotalDiscount"]}{" "}
           </span>
           <span className="tagOff">{(pctDiscount - 1) * 100 * -1}% OFF</span>
         </div>

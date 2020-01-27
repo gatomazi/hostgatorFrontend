@@ -17,13 +17,20 @@ class Plano extends React.Component {
 
   startUpFunctions = () => {
     getPlans().then(data => {
-      console.log(data);
       this.setState({ plansApi: data });
       this.filterPlans();
 
-      this.changePlan(0);
+      this.changePlan(1);
     });
   };
+
+  orderArr(arr, index) {
+    arr.sort(function(a, b) {
+      return b[index] - a[index];
+    });
+    arr.reverse();
+    return arr;
+  }
 
   filterPlans = () => {
     let plansFiltered = Object.keys(this.state.plansApi.shared.products).map(
@@ -34,16 +41,16 @@ class Plano extends React.Component {
     this.setState({ plansFiltered });
   };
 
-  changePlan = indexCycle => {
+  changePlan = monthIndex => {
     this.setState({
-      plans: this.createPlans(indexCycle),
-      activePlan: indexCycle
+      plans: this.createPlans(monthIndex),
+      activePlan: monthIndex
     });
   };
 
-  createPlans = indexCycle => {
+  createPlans = monthIndex => {
     return this.state.plansFiltered.map((plan, index) => {
-      let planCycle = this.createCyclesPlan(index, indexCycle);
+      let planCycle = this.createCyclesPlan(index, monthIndex);
       return (
         <Grid key={index} item xs={4}>
           <div className="orangePlanBg">
@@ -59,7 +66,8 @@ class Plano extends React.Component {
     });
   };
 
-  createCyclesPlan = (indexPlan, indexCycle) => {
+  createCyclesPlan = (indexPlan, monthIndex) => {
+    console.log("Create cycles plan index Cycle: ", monthIndex);
     let arrReturn = [];
     Object.keys(this.state.plansFiltered[indexPlan]["cycle"]).map(
       (nameCycle, index) => {
@@ -67,9 +75,8 @@ class Plano extends React.Component {
           "months"
         ];
         if (
-          indexCycle === index
-          // &&
-          // (month === 36 || month === 12 || month === 1)
+          monthIndex === month &&
+          (month === 36 || month === 12 || month === 1)
         ) {
           arrReturn["priceRenew"] = this.state.plansFiltered[indexPlan][
             "cycle"
@@ -94,48 +101,58 @@ class Plano extends React.Component {
         let arrAux = [];
         let month = this.state.plansFiltered[0]["cycle"][nameCycle]["months"];
 
-        // if (month === 36 || month === 12 || month === 1) {
-        arrAux["nameCycle"] = nameCycle;
-        if (month >= 12) {
-          let calcYear = month / 12;
-          arrAux["formattedCycle"] =
-            calcYear > 1 ? calcYear + " anos" : calcYear + " ano";
-        } else {
-          arrAux["formattedCycle"] =
-            month > 1 ? month + " meses" : month + " mês";
+        if (month === 36 || month === 12 || month === 1) {
+          arrAux["months"] = month;
+          arrAux["nameCycle"] = nameCycle;
+          if (month >= 12) {
+            let calcYear = month / 12;
+            arrAux["formattedCycle"] =
+              calcYear > 1 ? calcYear + " anos" : calcYear + " ano";
+          } else {
+            arrAux["formattedCycle"] =
+              month > 1 ? month + " meses" : month + " mês";
+          }
+          // arrReturn.push(arrAux);
+          arrReturn[`${month}`] = arrAux;
         }
-        arrReturn.push(arrAux);
-        // }
       }
     );
     return arrReturn;
+    // return arrReturn;
   };
 
   redirectTo = val => {
     this.props.history.push("/" + val);
   };
 
+  componentDidUpdate() {
+    this.props.location.hash = "";
+  }
   componentDidMount() {
+    //Remove anchor
+    if (this.props.location.hash !== "") {
+      this.props.history.push("/");
+    }
     this.startUpFunctions();
   }
-
   render() {
-    // this.mountCycleTab = this.getCycles();
     return (
       <div id="plans" className="root">
         <Container maxWidth="md">
           {this.state.plansFiltered ? (
             <>
               <div className="tabsRoot">
-                <Tabs
-                  tabs={this.getCyclesTabs()}
-                  active={this.state.activePlan}
-                  setActive={this.changePlan}
-                />
+                <div className="tabsBar">
+                  <Tabs
+                    tabs={this.getCyclesTabs()}
+                    active={this.state.activePlan}
+                    setActive={this.changePlan}
+                  />
+                </div>
+                <Grid container spacing={3}>
+                  {this.state.plans}
+                </Grid>
               </div>
-              <Grid container spacing={3}>
-                {this.state.plans}
-              </Grid>
             </>
           ) : (
             <AutorenewIcon className="loadingIcon" />
