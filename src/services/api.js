@@ -5,7 +5,7 @@ const getPlans = async () => {
     const jsonData = await fetch(API_PATH);
     const data = await jsonData.json();
 
-    return data.shared ? data : [];
+    return data.shared ? data : { shared: { products: {} } };
   } catch (error) {
     alert(error);
   }
