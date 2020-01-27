@@ -1,4 +1,7 @@
 @import "../global.scss";
+body {
+  overflow-x: hidden;
+}
 
 .rootBanner {
   color: white;
@@ -8,6 +11,7 @@
   line-height: 1.5;
   font-weight: 300;
   margin-bottom: 45px;
+  overflow: hidden !important;
   &:after {
     content: "";
     position: absolute;
@@ -25,7 +29,6 @@
     transform: translateX(-50%);
     z-index: -3;
   }
-  overflow: hidden !important;
 }
 .afterBg:after {
   background-color: $blue-1-color;
