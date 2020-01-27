@@ -2,7 +2,8 @@ import React from "react";
 
 import { Button, Radio } from "@material-ui/core";
 
-const Tabs = ({ tabs, active, setActive }) => {
+const Tabs = ({ plansFiltered, active, setActive }) => {
+  let tabs = CreateTabs(plansFiltered);
   return (
     <>
       {tabs.map((cycleInfo, index) => (
@@ -24,4 +25,29 @@ const Tabs = ({ tabs, active, setActive }) => {
   );
 };
 
-export { Tabs };
+const CreateTabs = plansFiltered => {
+  let arrReturn = [];
+  console.log(plansFiltered);
+  Object.keys(plansFiltered[0]["cycle"]).map((nameCycle, index) => {
+    let arrAux = [];
+    let month = plansFiltered[0]["cycle"][nameCycle]["months"];
+
+    if (month === 36 || month === 12 || month === 1) {
+      arrAux["months"] = month;
+      arrAux["nameCycle"] = nameCycle;
+      if (month >= 12) {
+        let calcYear = month / 12;
+        arrAux["formattedCycle"] =
+          calcYear > 1 ? calcYear + " anos" : calcYear + " ano";
+      } else {
+        arrAux["formattedCycle"] =
+          month > 1 ? month + " meses" : month + " mês";
+      }
+      // arrReturn.push(arrAux);
+      arrReturn[`${month}`] = arrAux;
+    }
+  });
+  return arrReturn;
+};
+
+export { Tabs, CreateTabs };

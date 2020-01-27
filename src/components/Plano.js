@@ -1,12 +1,15 @@
 import React from "react";
-import { Grid, Container } from "@material-ui/core";
-import { Tabs } from "./Tabs";
-import PlanoCard from "./PlanoCard";
-import { getPlans } from "../services/api";
 import { withRouter } from "react-router-dom";
-import CachedIcon from "@material-ui/icons/Cached";
-import AutorenewIcon from "@material-ui/icons/Autorenew";
+import { getPlans } from "../services/api";
+
 import "./Plano.scss";
+import PlanoCard from "./PlanoCard";
+import { Tabs } from "./Tabs";
+
+import { Grid, Container } from "@material-ui/core";
+
+import AutorenewIcon from "@material-ui/icons/Autorenew";
+
 class Plano extends React.Component {
   state = {
     plans: null,
@@ -23,14 +26,6 @@ class Plano extends React.Component {
       this.changePlan(1);
     });
   };
-
-  orderArr(arr, index) {
-    arr.sort(function(a, b) {
-      return b[index] - a[index];
-    });
-    arr.reverse();
-    return arr;
-  }
 
   filterPlans = () => {
     let plansFiltered = Object.keys(this.state.plansApi.shared.products).map(
@@ -52,7 +47,7 @@ class Plano extends React.Component {
     return this.state.plansFiltered.map((plan, index) => {
       let planCycle = this.createCyclesPlan(index, monthIndex);
       return (
-        <Grid key={index} item xs={4}>
+        <Grid key={index} style={{ maxWidth: 306 }} item md={4} sm={6} xs={12}>
           <div className="orangePlanBg">
             <PlanoCard
               key={index}
@@ -93,41 +88,10 @@ class Plano extends React.Component {
     return arrReturn;
   };
 
-  getCyclesTabs = () => {
-    let arrReturn = [];
-
-    Object.keys(this.state.plansFiltered[0]["cycle"]).map(
-      (nameCycle, index) => {
-        let arrAux = [];
-        let month = this.state.plansFiltered[0]["cycle"][nameCycle]["months"];
-
-        if (month === 36 || month === 12 || month === 1) {
-          arrAux["months"] = month;
-          arrAux["nameCycle"] = nameCycle;
-          if (month >= 12) {
-            let calcYear = month / 12;
-            arrAux["formattedCycle"] =
-              calcYear > 1 ? calcYear + " anos" : calcYear + " ano";
-          } else {
-            arrAux["formattedCycle"] =
-              month > 1 ? month + " meses" : month + " mês";
-          }
-          // arrReturn.push(arrAux);
-          arrReturn[`${month}`] = arrAux;
-        }
-      }
-    );
-    return arrReturn;
-    // return arrReturn;
-  };
-
   redirectTo = val => {
     this.props.history.push("/" + val);
   };
 
-  componentDidUpdate() {
-    this.props.location.hash = "";
-  }
   componentDidMount() {
     //Remove anchor
     if (this.props.location.hash !== "") {
@@ -144,7 +108,7 @@ class Plano extends React.Component {
               <div className="tabsRoot">
                 <div className="tabsBar">
                   <Tabs
-                    tabs={this.getCyclesTabs()}
+                    plansFiltered={this.state.plansFiltered}
                     active={this.state.activePlan}
                     setActive={this.changePlan}
                   />
