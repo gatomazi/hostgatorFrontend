@@ -1,33 +1,35 @@
 @import "../global.scss";
 
 .classHeroesBg {
-  &:before {
-    content: "";
-    position: absolute;
-    // right: -400px;
-    // bottom: 53px;
-    top: 114px;
-    left: 70px;
-    width: 438px;
-    height: 354px;
-    background-image: url("../assets/desk.svg");
-    background-repeat: no-repeat;
-    background-position: center bottom;
-    // z-index: -2;
-  }
-  &:after {
-    content: "";
-    position: absolute;
-    // right: -400px;
-    // bottom: 53px;
-    top: 114px;
-    right: 70px;
-    width: 484px;
-    height: 353px;
-    background-image: url("../assets/man-desk.svg");
-    background-repeat: no-repeat;
-    background-position: center bottom;
-    // z-index: -2;
+  @media screen and (min-width: 1024px) {
+    &:before {
+      content: "";
+      position: absolute;
+      // right: -400px;
+      // bottom: 53px;
+      top: 114px;
+      left: 70px;
+      width: 438px;
+      height: 354px;
+      background-image: url("../assets/desk.svg");
+      background-repeat: no-repeat;
+      background-position: center bottom;
+      // z-index: -2;
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      // right: -400px;
+      // bottom: 53px;
+      top: 114px;
+      right: 70px;
+      width: 484px;
+      height: 353px;
+      background-image: url("../assets/man-desk.svg");
+      background-repeat: no-repeat;
+      background-position: center bottom;
+      // z-index: -2;
+    }
   }
 }
 
