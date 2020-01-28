@@ -11,6 +11,7 @@
       div {
         padding: 5px 0px;
         span {
+          padding-bottom: 3px;
           border-bottom: dashed 0.8px $blue-2-color;
         }
       }
@@ -18,11 +19,27 @@
   }
 }
 
+.infoPlan {
+  font-size: 16px;
+}
+
+.freeDomain {
+  color: $gray-color;
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
 .tagOff {
   background: $green-color;
   border-radius: 25px;
   color: white;
-  padding: 0px 7px;
+  font-weight: bold;
+  padding: 3px 7px;
+}
+
+.totalPrices {
+  color: $gray-color;
 }
 
 .btnContrate {
@@ -31,7 +48,7 @@
   text-transform: capitalize !important;
   // font-weight: bold !important;
   color: white !important;
-  font-size: 23px !important;
+  font-size: 22px !important;
   background: $orange-color !important;
   border-radius: 25px !important;
 }
@@ -45,9 +62,4 @@
   border-top-color: $border-color;
   border-top-style: solid;
   /* border-top: 0.5; */
-}
-
-.fontDestaque {
-  font-size: 24px;
-  font-weight: bold;
 }

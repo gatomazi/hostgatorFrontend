@@ -11,12 +11,17 @@
   .MuiBox-root {
     padding: 0px !important;
   }
+  @media screen and (min-width: 1024px) {
+    max-width: 330px;
+    min-width: 330px;
+  }
 }
 
 .tabBtn {
   width: calc(100% / 3);
   border-radius: 25px !important;
   text-transform: lowercase !important;
+  color: $blue-4-color !important;
 }
 
 .activeTab,
@@ -27,6 +32,11 @@
   .radioTab {
     color: white !important;
   }
+}
+
+.monthSelect {
+  color: $blue-4-color;
+  font-size: 14px;
 }
 
 .tabsRoot {
@@ -40,9 +50,10 @@
 .tabsBar {
   // display: inline-block;
 
-  width: 282px;
+  width: 330px;
   display: block;
   border: 0.5px solid $blue-3-color;
+
   background-color: white;
   border-radius: 25px;
   margin-top: 10px;
@@ -54,6 +65,14 @@
   padding: 0px !important;
   padding-right: 5px !important;
   color: $blue-2-color !important;
+}
+
+.containerPlans {
+  flex: 1 !important;
+  justify-content: center !important;
+  align-items: center !important;
+  display: flex;
+  flex-direction: row;
 }
 
 .loadingIcon {

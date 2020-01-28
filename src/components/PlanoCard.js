@@ -3,7 +3,8 @@ import "./PlanoCard.scss";
 
 import { CalcValues } from "../helpers/currency";
 
-import iconPlan from "../assets/icon.png";
+import iconPlan from "../assets/plan-icon.svg";
+import iconInfo from "../assets/info-icon.svg";
 import { Button } from "@material-ui/core";
 
 const PlanoCard = ({ plan, infoCycle, handleRedirect }) => {
@@ -19,26 +20,30 @@ const PlanoCard = ({ plan, infoCycle, handleRedirect }) => {
     <div className="planCard">
       <div className="defaulPadding">
         <img
-          style={{ height: 50 }}
+          style={{ height: 40 }}
           src={iconPlan}
           className="Navbar-logo"
           alt="logo"
         />
-        <div className="fontDestaque blueFont">{plan["name"]}</div>
+        <div className="blueFont" style={{ fontSize: 26, fontWeight: "bold" }}>
+          {plan["name"]}
+        </div>
       </div>
       <div className="insideDivisor defaulPadding">
-        <div>
+        <div className="totalPrices">
           <span style={{ textDecoration: "line-through" }}>
             {arrValues["originalPrice"]}
           </span>{" "}
           <span>
             <b>{arrValues["valueWDDiscount"]}</b>
           </span>
+          <div>equivalente a</div>
         </div>
-        <div>equivalente a</div>
         <div className="blueFont">
-          <span className="fontDestaque">{arrValues["valueMonth"]}</span>
-          /mês*
+          <span style={{ fontSize: 35, fontWeight: "bold" }}>
+            {arrValues["valueMonth"]}
+          </span>
+          <span style={{ fontSize: 20 }}>/mês*</span>
         </div>
 
         <Button
@@ -51,7 +56,14 @@ const PlanoCard = ({ plan, infoCycle, handleRedirect }) => {
         >
           Contrate Agora
         </Button>
-        <div>1 ano de Domínio Grátis</div>
+        <div className="freeDomain">
+          1 ano de Domínio Grátis{" "}
+          <img
+            src={iconInfo}
+            style={{ position: "relative", top: 2 }}
+            alt="logo"
+          />
+        </div>
         <div>
           <span className="economizeTxt blueFont">
             economize {arrValues["valueTotalDiscount"]}{" "}
@@ -59,7 +71,7 @@ const PlanoCard = ({ plan, infoCycle, handleRedirect }) => {
           <span className="tagOff">{(pctDiscount - 1) * 100 * -1}% OFF</span>
         </div>
       </div>
-      <div className="defaulPadding" style={{ textAlign: "left" }}>
+      <div className="defaulPadding infoPlan" style={{ textAlign: "left" }}>
         <div>
           <span>Sites Ilimitados</span>
         </div>

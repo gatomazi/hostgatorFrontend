@@ -47,7 +47,13 @@ class Plano extends React.Component {
     return this.state.plansFiltered.map((plan, index) => {
       let planCycle = this.createCyclesPlan(index, monthIndex);
       return (
-        <Grid key={index} style={{ maxWidth: 306 }} item md={4} sm={6} xs={12}>
+        <Grid
+          key={index}
+          item
+          // md={4}
+          // sm={6}
+          // xs={12}
+        >
           <div className="orangePlanBg">
             <PlanoCard
               key={index}
@@ -102,10 +108,11 @@ class Plano extends React.Component {
   render() {
     return (
       <div id="plans" className="root">
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           {this.state.plansFiltered ? (
             <>
               <div className="tabsRoot">
+                <div className="monthSelect">Quero pagar a cada:</div>
                 <div className="tabsBar">
                   <Tabs
                     plansFiltered={this.state.plansFiltered}
@@ -113,7 +120,7 @@ class Plano extends React.Component {
                     setActive={this.changePlan}
                   />
                 </div>
-                <Grid container spacing={3}>
+                <Grid className="containerPlans" container spacing={3}>
                   {this.state.plans}
                 </Grid>
               </div>
